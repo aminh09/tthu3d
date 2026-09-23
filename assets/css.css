@@ -1,0 +1,745 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #030208;
+  font-family: "Quicksand", sans-serif;
+  touch-action: none;
+}
+
+/* Romantic entrance gate */
+.love-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  overflow: hidden;
+  min-height: 100dvh;
+  padding: clamp(16px, 3vw, 32px);
+  color: #62364e;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.92), transparent 26%),
+    radial-gradient(circle at 80% 78%, rgba(255, 208, 225, 0.65), transparent 31%),
+    linear-gradient(145deg, #fff8fb 0%, #fbe8f0 48%, #efd9ef 100%);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.love-gate.is-opening {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gate-glow {
+  position: absolute;
+  width: 42vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(18px);
+  opacity: 0.48;
+  animation: glowDrift 7s ease-in-out infinite alternate;
+}
+
+.gate-glow-one {
+  top: -18vw;
+  right: -9vw;
+  background: rgba(255, 168, 201, 0.66);
+}
+
+.gate-glow-two {
+  bottom: -20vw;
+  left: -12vw;
+  background: rgba(207, 175, 239, 0.55);
+  animation-delay: -3s;
+}
+
+.gate-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 540px;
+  min-height: 480px;
+  padding: 46px 42px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow:
+    0 25px 70px rgba(119, 67, 96, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  text-align: center;
+  touch-action: manipulation;
+  overflow: hidden;
+}
+
+.gate-card::before,
+.gate-card::after {
+  content: "✦";
+  position: absolute;
+  color: rgba(220, 105, 150, 0.34);
+  font-size: 22px;
+  pointer-events: none;
+  animation: sparkleDance 2.4s ease-in-out infinite;
+}
+
+.gate-card::before {
+  top: 28px;
+  left: 34px;
+}
+
+.gate-card::after {
+  right: 34px;
+  bottom: 28px;
+  animation-delay: -1.2s;
+}
+
+.gate-step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gate-step.active {
+  display: flex;
+  animation: cardArrival 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.gate-step.leaving {
+  display: flex;
+  position: absolute;
+  animation: cardLeave 0.38s ease both;
+}
+
+.gate-icon {
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  font-size: 47px;
+  background: linear-gradient(145deg, #fff, #ffe6ef);
+  box-shadow: 0 12px 28px rgba(225, 99, 149, 0.19);
+  animation: heartBeat 1.8s ease-in-out infinite;
+}
+
+.password-icon {
+  font-size: 40px;
+  animation-name: lockBounce;
+}
+
+.gate-eyebrow {
+  margin-bottom: 12px;
+  color: #bc718d;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.gate-card h1,
+.gate-card h2 {
+  margin: 0;
+  color: #6e3c57;
+  font-family: "Quicksand", system-ui, sans-serif;
+  font-size: clamp(32px, 5vw, 44px);
+  font-weight: 600;
+  line-height: 1.3;
+  text-shadow: 0 3px 16px rgba(222, 117, 158, 0.16);
+  overflow-wrap: anywhere;
+}
+
+.gate-card h2 {
+  font-size: clamp(30px, 4.5vw, 40px);
+}
+
+.gate-copy {
+  margin: 18px 0 31px;
+  color: #93677b;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.love-actions {
+  width: 100%;
+  min-height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+.love-btn,
+.unlock-btn {
+  min-width: 136px;
+  min-height: 56px;
+  padding: 15px 28px;
+  border: 0;
+  border-radius: 999px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(130, 74, 101, 0.13);
+  transition: transform 0.28s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.yes-btn {
+  --scale: 1;
+  z-index: 2;
+  color: #fff;
+  background: linear-gradient(135deg, #ed83aa, #d86191);
+  transform: scale(var(--scale));
+}
+
+.yes-btn:hover {
+  box-shadow: 0 13px 30px rgba(215, 88, 139, 0.34);
+}
+
+.yes-btn.nudge {
+  animation: yesNudge 0.48s ease;
+}
+
+.yes-btn.celebrate {
+  animation: happyYes 0.9s ease-in-out infinite alternate;
+}
+
+.no-btn {
+  --scale: 1;
+  color: #9b7183;
+  background: rgba(255, 255, 255, 0.88);
+  transform: scale(var(--scale));
+}
+
+.no-btn.taken-away {
+  opacity: 0;
+  transform: translateX(55px) rotate(8deg) scale(0.25);
+}
+
+.no-plane {
+  position: fixed;
+  z-index: 20;
+  top: 56%;
+  left: -330px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 10px rgba(121, 70, 96, 0.2));
+}
+
+.no-plane.fly {
+  animation: planeCarry 2.6s cubic-bezier(0.22, 0.7, 0.31, 1) both;
+}
+
+.plane-passenger {
+  padding: 9px 17px;
+  border: 2px solid rgba(216, 110, 151, 0.46);
+  border-radius: 999px;
+  color: #9b657b;
+  background: #fff9fb;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.plane-rope {
+  color: #c97f9c;
+  font-size: 26px;
+  letter-spacing: -8px;
+}
+
+.plane-body {
+  display: inline-block;
+  font-size: 64px;
+  transform: rotate(7deg);
+  animation: planeBob 0.35s ease-in-out infinite alternate;
+}
+
+.password-form {
+  width: 100%;
+}
+
+.password-field {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 17px;
+  border: 1.5px solid rgba(218, 134, 167, 0.32);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: inset 0 2px 7px rgba(117, 62, 88, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-field:focus-within {
+  border-color: #e37fa6;
+  box-shadow: 0 0 0 4px rgba(227, 127, 166, 0.11);
+}
+
+.password-field span {
+  color: #df78a1;
+  font-size: 22px;
+}
+
+.password-field input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: #6d4054;
+  background: transparent;
+  font-family: "Quicksand", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-align: center;
+  user-select: text;
+  touch-action: manipulation;
+}
+
+.password-field input::placeholder {
+  color: #c6a3b2;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.password-error {
+  min-height: 25px;
+  margin: 8px 0 4px;
+  color: #cf527d;
+  font-size: 13px;
+}
+
+.password-form.shake {
+  animation: formShake 0.38s ease;
+}
+
+.unlock-btn {
+  width: 100%;
+  color: #fff;
+  background: linear-gradient(135deg, #e88caf, #cf709c);
+}
+
+.unlock-btn:hover {
+  box-shadow: 0 13px 30px rgba(207, 112, 156, 0.3);
+  transform: translateY(-2px);
+}
+
+.floating-icons span {
+  position: absolute;
+  left: var(--x);
+  bottom: -60px;
+  color: rgba(214, 103, 147, 0.44);
+  font-size: clamp(20px, 3vw, 34px);
+  animation: floatUp var(--duration) linear var(--delay) infinite;
+}
+
+.floating-icons {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+  12% { opacity: 1; }
+  85% { opacity: 0.7; }
+  100% { transform: translateY(-115vh) rotate(26deg) scale(1.2); opacity: 0; }
+}
+
+@keyframes glowDrift {
+  to { transform: translate3d(4vw, 3vh, 0) scale(1.08); }
+}
+
+@keyframes sparkleDance {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0.3; }
+  50% { transform: translateY(-9px) rotate(24deg) scale(1.18); opacity: 0.8; }
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  60% { transform: scale(0.98); }
+}
+
+@keyframes lockBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  35% { transform: translateY(-6px) rotate(-5deg); }
+  65% { transform: translateY(-2px) rotate(5deg); }
+}
+
+@keyframes yesNudge {
+  0%, 100% { transform: scale(var(--scale)) rotate(0deg); }
+  30% { transform: scale(var(--scale)) rotate(-4deg); }
+  70% { transform: scale(var(--scale)) rotate(4deg); }
+}
+
+@keyframes happyYes {
+  from { transform: translateY(0) scale(var(--scale)) rotate(-1.5deg); }
+  to { transform: translateY(-5px) scale(var(--scale)) rotate(1.5deg); }
+}
+
+@keyframes planeCarry {
+  0% { opacity: 0; transform: translate3d(0, 55px, 0) rotate(-4deg); }
+  12% { opacity: 1; }
+  42% { transform: translate3d(calc(48vw + 170px), -45px, 0) rotate(3deg); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(calc(100vw + 480px), -120px, 0) rotate(-2deg); }
+}
+
+@keyframes planeBob {
+  from { transform: translateY(-2px) rotate(5deg); }
+  to { transform: translateY(3px) rotate(9deg); }
+}
+
+@keyframes cardArrival {
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes cardLeave {
+  to { opacity: 0; transform: translateY(-14px) scale(0.97); }
+}
+
+@keyframes formShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-7px); }
+  50% { transform: translateX(7px); }
+  75% { transform: translateX(-4px); }
+}
+
+#webgl-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.top-bar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+  background: rgba(255, 215, 0, 0.3);
+}
+
+.wish-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  padding: 20px;
+}
+
+.wish-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wish-card {
+  background: linear-gradient(
+    135deg,
+    rgba(35, 15, 45, 0.95),
+    rgba(15, 8, 25, 0.98)
+  );
+  border: 1.5px solid rgba(255, 215, 0, 0.5);
+  box-shadow:
+    0 0 35px rgba(255, 182, 193, 0.3),
+    inset 0 0 15px rgba(255, 215, 0, 0.2);
+  border-radius: 24px;
+  padding: 28px 20px 24px 20px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  transform: translateY(30px) scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #fff;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.wish-modal.active .wish-card {
+  transform: translateY(0) scale(1);
+}
+
+.wish-card .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.wish-card .close-btn:hover,
+.wish-card .close-btn:active {
+  background: rgba(255, 77, 109, 0.8);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.wish-card h3 {
+  font-family: "Dancing Script", cursive;
+  font-size: 28px;
+  color: #ffd700;
+  margin-bottom: 12px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.wish-image-container {
+  width: 100%;
+  height: 250px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 12px 0 16px 0;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+
+.wish-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+.wish-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #f0e6ff;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.wish-card .tag {
+  font-size: 12px;
+  color: #ff9ebb;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.click-hint {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  color: rgba(255, 235, 205, 0.75);
+  font-size: 13px;
+  letter-spacing: 1px;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  animation: pulseHint 2s infinite alternate;
+  text-align: center;
+  width: 90%;
+}
+
+@keyframes pulseHint {
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 520px) {
+  .love-gate {
+    padding:
+      max(10px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      max(10px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+  }
+
+  .gate-card {
+    max-width: 430px;
+    min-height: min(520px, calc(100dvh - 20px));
+    padding: 38px 22px 34px;
+    border-radius: 30px;
+  }
+
+  .gate-icon {
+    width: 82px;
+    height: 82px;
+    font-size: 41px;
+  }
+
+  .gate-card h1 {
+    font-size: clamp(29px, 8.2vw, 36px);
+  }
+
+  .gate-card h2 {
+    font-size: clamp(27px, 7.6vw, 34px);
+  }
+
+  .gate-copy {
+    max-width: 310px;
+    font-size: 15px;
+  }
+
+  .love-actions {
+    gap: 12px;
+    min-height: 118px;
+  }
+
+  .love-btn {
+    min-width: 118px;
+    min-height: 56px;
+    padding-inline: 20px;
+  }
+
+  .no-plane {
+    top: 58%;
+  }
+
+  .plane-body {
+    font-size: 54px;
+  }
+
+  .plane-passenger {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .wish-card {
+    padding: 26px 16px 22px;
+  }
+
+  .wish-image-container {
+    height: min(48vh, 340px);
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .gate-card {
+    width: calc(100% - 24px);
+    max-width: 620px;
+    min-height: 0;
+    max-height: calc(100dvh - 20px);
+    padding: 20px 34px;
+    overflow-y: auto;
+  }
+
+  .gate-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 8px;
+    font-size: 29px;
+  }
+
+  .gate-eyebrow {
+    margin-bottom: 5px;
+  }
+
+  .gate-card h1,
+  .gate-card h2 {
+    font-size: 27px;
+  }
+
+  .gate-copy {
+    margin: 8px 0 13px;
+  }
+
+  .love-actions {
+    min-height: 72px;
+  }
+
+  .password-field {
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-icons span,
+  .gate-glow,
+  .gate-icon,
+  .gate-card::before,
+  .gate-card::after,
+  .yes-btn,
+  .plane-body,
+  .click-hint {
+    animation: none;
+  }
+
+  .no-plane.fly {
+    display: none;
+  }
+}
