@@ -444,35 +444,35 @@ const interactiveObjects = [];
 const wishList = [
   {
     text: "Mong nụ cười đáng yêu này sẽ luôn ở bên anh, không chỉ đêm Trung Thu mà trong thật nhiều ngày sau nữa.",
-    img: "./assets/3215ba12-84d0-4b89-b749-53becc496997.jpg",
+    img: "./assets/memory-01.jpg",
   },
   {
     text: "Cảm ơn em vì đã xuất hiện và làm những ngày bình thường của anh trở nên thật đặc biệt.",
-    img: "./assets/6ddefa7f-72d1-44cd-884a-16ed83d52107.jpg",
+    img: "./assets/memory-02.jpg",
   },
   {
     text: "Chỉ cần em vui, mọi khoảnh khắc bên nhau đều trở thành một kỷ niệm thật đẹp.",
-    img: "./assets/c55dc5ea-e5fc-4ae6-a0d1-f6c576798951.jpg",
+    img: "./assets/memory-03.jpg",
   },
   {
     text: "Anh mong mình sẽ còn cùng nhau đón thêm nhiều mùa trăng, bình yên và dịu dàng như thế này.",
-    img: "./assets/tải xuống (1).jpg",
+    img: "./assets/memory-04.jpg",
   },
   {
     text: "Dù em ở đâu, hãy luôn nhớ rằng có một người rất thương và luôn muốn thấy em hạnh phúc.",
-    img: "./assets/tải xuống (2).jpg",
+    img: "./assets/memory-05.jpg",
   },
   {
     text: "Chúc cô gái của anh luôn xinh đẹp, mạnh mẽ và giữ mãi nét đáng yêu khiến anh rung động.",
-    img: "./assets/tải xuống (3).jpg",
+    img: "./assets/memory-06.jpg",
   },
   {
     text: "Trăng đêm nay thật sáng, nhưng với anh vẫn không thể sáng bằng ánh mắt của em.",
-    img: "./assets/tải xuống (4).jpg",
+    img: "./assets/memory-07.jpg",
   },
   {
     text: "Hy vọng món quà nhỏ này làm em mỉm cười. Trung Thu vui vẻ nha, người anh thương!",
-    img: "./assets/tải xuống.jpg",
+    img: "./assets/memory-08.jpg",
   },
 ];
 
